@@ -3,6 +3,8 @@
 Adds the end-credits cover of *Never Fade Away* by P.T. Adamczyk and Olga Jankowska to 107.3 Morro
 Rock Radio, so it comes up in rotation beside Samurai's original.
 
+**Nexus:** <https://www.nexusmods.com/cyberpunk2077/mods/33902>
+
 **The mod ships no audio.** The song is already in the game, and the mod points at that copy.
 
 ## Requirements
@@ -53,3 +55,16 @@ The music starts at 0.55 s and its fade reaches the -79 dB noise floor at 283.94
 `archive/pc/mod/NeverFadeAwayMorroRock.archive` carries one onscreens entry, and the `.xl` beside it
 maps every language to that file. The entry is authored in `tools/onscreens.json`. Its `primaryKey`
 is `0`, which is what makes ArchiveXL register it under the hash of the secondary key.
+
+## License
+
+Licensed under the [PolyForm Strict License 1.0.0](LICENSE.md). You may use this mod and read its source
+for any **noncommercial** purpose. You may not share or re-upload it, or make changes or new works based on
+it, without permission. Commercial use, including paid mods or selling, is not permitted.
+
+Permission requests go through the [Nexus Mods page](https://www.nexusmods.com/cyberpunk2077/mods/33902).
+
+## Disclaimer
+
+This mod was developed with the assistance of an LLM. All in-game testing and code validation was
+performed by a human. No rogue AIs were permitted through the Blackwall.
