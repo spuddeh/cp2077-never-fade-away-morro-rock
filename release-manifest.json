@@ -6,6 +6,7 @@
     "never-fade-away": {
       "displayName": "Never Fade Away on Morro Rock Radio",
       "fileBaseName": "NeverFadeAwayMorroRock",
+      "nexus_mod_id": 33902,
       "contentDir": [
         "archive",
         "r6",
