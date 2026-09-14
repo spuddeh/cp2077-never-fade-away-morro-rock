@@ -11,3 +11,10 @@
   283940 ms, and both edges hold at -70, -65 and -60 dB.
 - Title `P.T. Adamczyk, Olga Jankowska - Never Fade Away (Samurai Cover)`, key
   `Gameplay-Devices-Radio_tracks-att_rock_never_fade_away_cover`, FNV1a32 `865378895`.
+
+### Verified
+
+- **Playing in game 2026-09-14.** Plays without issue in the Testing instance.
+- **Restore Nebula needs its compatibility patch beside this mod**, even though the two add to
+  different stations. Without the patch from Hardest to Be on Growl FM's page, Restore Nebula's
+  track is lost; with it, it plays.
