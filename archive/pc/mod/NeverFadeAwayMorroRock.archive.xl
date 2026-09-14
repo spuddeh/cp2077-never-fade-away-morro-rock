@@ -1,0 +1,25 @@
+# The track title. Vanilla leaves a radio track title in Latin script for most languages, so
+# every language points at one file; Russian and Ukrainian do transliterate the artist, so
+# either can be repointed at its own file without changing anything else.
+# en-us is listed first and is therefore ArchiveXL's fallback.
+localization:
+  onscreens:
+    en-us: mod\neverfadeawaymorrorock\localization\onscreens.json
+    ar-ar: mod\neverfadeawaymorrorock\localization\onscreens.json
+    cz-cz: mod\neverfadeawaymorrorock\localization\onscreens.json
+    de-de: mod\neverfadeawaymorrorock\localization\onscreens.json
+    es-es: mod\neverfadeawaymorrorock\localization\onscreens.json
+    es-mx: mod\neverfadeawaymorrorock\localization\onscreens.json
+    fr-fr: mod\neverfadeawaymorrorock\localization\onscreens.json
+    hu-hu: mod\neverfadeawaymorrorock\localization\onscreens.json
+    it-it: mod\neverfadeawaymorrorock\localization\onscreens.json
+    jp-jp: mod\neverfadeawaymorrorock\localization\onscreens.json
+    kr-kr: mod\neverfadeawaymorrorock\localization\onscreens.json
+    pl-pl: mod\neverfadeawaymorrorock\localization\onscreens.json
+    pt-br: mod\neverfadeawaymorrorock\localization\onscreens.json
+    ru-ru: mod\neverfadeawaymorrorock\localization\onscreens.json
+    th-th: mod\neverfadeawaymorrorock\localization\onscreens.json
+    tr-tr: mod\neverfadeawaymorrorock\localization\onscreens.json
+    ua-ua: mod\neverfadeawaymorrorock\localization\onscreens.json
+    zh-cn: mod\neverfadeawaymorrorock\localization\onscreens.json
+    zh-tw: mod\neverfadeawaymorrorock\localization\onscreens.json
