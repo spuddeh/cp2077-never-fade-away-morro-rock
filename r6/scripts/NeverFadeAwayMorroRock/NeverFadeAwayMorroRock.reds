@@ -3,7 +3,7 @@
 // Author: Spuddeh
 // Description: Adds the end-credits cover of Never Fade Away to Morro Rock Radio's playlist,
 //              from the game's own audio.
-// Mod Version: 1.0.0
+// Mod Version: 1.0.1
 // Credits: AudioXL by DigitalVixen.
 // ======================================================================================
 

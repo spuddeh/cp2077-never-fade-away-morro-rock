@@ -10,6 +10,10 @@
   nineteen languages.
 - The segment carries Morro Rock Radio's broadcast sends, bus and dry Volume, so it plays at the
   station's level.
+- Coexists with Restore Nebula with no patch. The mod never starts the metadata load from
+  `OnLoad`: it listens for the load, and takes a depot token only for a resource
+  `AudioXLNative.IsResourceRequested` reports as already requested.
+- AudioXL 0.4.3 or newer is a hard compile dependency.
 
 ## Planned
 
