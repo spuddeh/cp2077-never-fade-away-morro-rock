@@ -1,6 +1,6 @@
 # Changelog
 
-### [Unreleased - v1.0.2]
+### [v1.0.2]
 - Fix: the song is now added to the game's sound event list by AudioXL, and the mod no longer edits game files at the moment every other mod does. AudioXL 0.6.0 names both as a cause of crashes at launch when several sound mods are installed.
 - Note: now requires AudioXL 0.6.0 or newer. With an older AudioXL, redscript reports a compile error at launch.
 
