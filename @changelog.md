@@ -1,5 +1,21 @@
 # Changelog
 
+## [Unreleased - 1.0.2]
+
+### Fixed
+
+- The event row is registered with `AudioXLAPI.RegisterEventRow(m_trackEvent, false, m_duration,
+  m_duration)` from `OnLoad`, instead of an `ArrayPush` into `eventsmetadata.json`. `PatchEvents`,
+  `OnEventsMetadata`, `OnEventsReady`, `OnCookedReady`, `Watch` and `m_tokens` are removed; the
+  station patch runs from `Resource/Load` only. AudioXL 0.6.0's docs name an `ArrayPush` into that
+  file, and any write from a `ResourceToken` callback, as a launch crash.
+- `m_wwiseId` removed: AudioXL derives the id from the event name (FNV-1 32, equal to the bank's).
+  The row's `tags` entry is dropped; no game script reads event-row tags.
+
+### Changed
+
+- AudioXL 0.6.0 is the floor: `RegisterEventRow` does not exist before it.
+
 ## [1.0.1] - 2026-09-15
 
 ### Fixed
