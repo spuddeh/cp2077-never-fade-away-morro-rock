@@ -25,24 +25,22 @@ public func NeverFadeLog(msg: String) -> Void {
 public func NeverFadeLog(msg: String) -> Void {}
 
 // A radio playlist is not TweakDB. The station record holds only its name, icon and index; the
-// track list lives in two cooked resources, patched here as they load:
+// track list lives in two places:
 //
-//   eventsmetadata.json              name -> Wwise id, and the duration the station schedules on
-//   cooked_metadata.audio_metadata   the audioRadioTrack rows and each station's track array
+//   the event table                  name -> Wwise id, and the duration the station schedules on;
+//                                    AudioXL adds the row when the game reads eventsmetadata.json
+//   cooked_metadata.audio_metadata   the audioRadioTrack rows and each station's track array,
+//                                    patched here from Resource/Load as it loads
 //
 // The event itself comes from never_fade_away_att_rock.bnk, which AudioXL loads.
 //
-// Each resource is reached two ways. Resource/Load fires only while a resource is loading, so it
-// never arrives for one another mod has already pulled in; a token covers that case. The token is
-// taken only for a resource something has already requested. Taken from OnLoad for anything else,
-// it starts the load inside Codeware's OnLoad loop, and every service after this one misses the
-// event. Both paths run the same patch, which is safe to run twice.
+// Never write from a ResourceToken callback, or push into eventsmetadata.json: AudioXL 0.6.0 names
+// both as a launch crash.
 
 public class NeverFadeAwayMorroRock extends ScriptableService {
 
   // Matches the event built by tools/make_bank.py. Change one, change the other.
   private let m_trackEvent: CName = n"mus_radio_01_att_rock_never_fade_away_cover";
-  private let m_wwiseId: Uint32 = 1087448145u;
 
   // The source file runs 286071.4375 ms, of which 540 ms of silence at the head and 2100 ms at
   // the tail are trimmed away in the bank. The station uses this to know when to queue the next
@@ -58,71 +56,20 @@ public class NeverFadeAwayMorroRock extends ScriptableService {
   private let m_locName: CName = n"Gameplay-Devices-Radio_tracks-att_rock_never_fade_away_cover";
   private let m_locKey: Uint64 = 865378895ul;
 
-  private let m_tokens: array<ref<ResourceToken>>;
-
   private cb func OnLoad() {
-    let cb = GameInstance.GetCallbackSystem();
+    if AudioXLAPI.RegisterEventRow(this.m_trackEvent, false, this.m_duration, this.m_duration) {
+      NeverFadeLog(s"event registered: \(this.m_trackEvent) \(this.m_duration)s");
+    } else {
+      NeverFadeLog(s"AudioXL did not take the event row \(this.m_trackEvent) - see its log for why");
+    }
 
-    cb.RegisterCallback(n"Resource/Load", this, n"OnEventsMetadata")
-      .AddTarget(ResourceTarget.Path(r"base\\sound\\event\\eventsmetadata.json"));
-
-    cb.RegisterCallback(n"Resource/Load", this, n"OnCookedMetadata")
+    GameInstance.GetCallbackSystem()
+      .RegisterCallback(n"Resource/Load", this, n"OnCookedMetadata")
       .AddTarget(ResourceTarget.Path(r"base\\sound\\metadata\\cooked_metadata.audio_metadata"));
-
-    let depot = GameInstance.GetResourceDepot();
-    this.Watch(depot, r"base\\sound\\event\\eventsmetadata.json", n"OnEventsReady");
-    this.Watch(depot, r"base\\sound\\metadata\\cooked_metadata.audio_metadata", n"OnCookedReady");
-  }
-
-  private func Watch(depot: ref<ResourceDepot>, path: ResRef, callback: CName) -> Void {
-    if !AudioXLNative.IsResourceRequested(path) {
-      return;
-    }
-    let token = depot.LoadResource(path);
-    if IsDefined(token) {
-      ArrayPush(this.m_tokens, token);
-      token.RegisterCallback(this, callback);
-    }
-  }
-
-  private cb func OnEventsMetadata(event: ref<ResourceEvent>) {
-    this.PatchEvents(event.GetResource() as JsonResource);
-  }
-
-  private cb func OnEventsReady(token: ref<ResourceToken>) {
-    this.PatchEvents(token.GetResource() as JsonResource);
   }
 
   private cb func OnCookedMetadata(event: ref<ResourceEvent>) {
     this.PatchStation(event.GetResource() as audioCookedMetadataResource);
-  }
-
-  private cb func OnCookedReady(token: ref<ResourceToken>) {
-    this.PatchStation(token.GetResource() as audioCookedMetadataResource);
-  }
-
-  private func PatchEvents(resource: ref<JsonResource>) -> Void {
-    if !IsDefined(resource) { return; }
-
-    let events = resource.root as audioAudioEventArray;
-    if !IsDefined(events) { return; }
-
-    let i: Int32 = 0;
-    while i < ArraySize(events.events) {
-      if Equals(events.events[i].redId, this.m_trackEvent) { return; }
-      i += 1;
-    }
-
-    let row: audioAudioEventMetadataArrayElement;
-    row.redId = this.m_trackEvent;
-    row.wwiseId = this.m_wwiseId;
-    row.isLooping = false;
-    row.maxAttenuation = 0.0;
-    row.minDuration = this.m_duration;
-    row.maxDuration = this.m_duration;
-    row.tags = [n"Att Rock"];
-    ArrayPush(events.events, row);
-    NeverFadeLog(s"event registered: \(this.m_trackEvent) wwiseId \(this.m_wwiseId) \(this.m_duration)s");
   }
 
   private func PatchStation(cooked: ref<audioCookedMetadataResource>) -> Void {
